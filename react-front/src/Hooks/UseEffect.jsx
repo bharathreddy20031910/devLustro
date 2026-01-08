@@ -1,7 +1,9 @@
 import React, { useState,useEffect } from 'react'
+import { useTheme } from '../Context/ContextApi'
 
 const UseEffect = () => {
 const [users,setUsers]=useState([])
+const {theme,toggleTheme}=useTheme()
 
 useEffect(()=>{
    setTimeout(()=>{
@@ -18,7 +20,8 @@ const fetchUsers=()=>{
 }
 
   return (
-    <div>
+    <div style={{color:theme==='light'?'black':'white',backgroundColor:theme==='light'?'white':'black',margin:'0'}}>
+      <button onClick={toggleTheme}>theme</button>
       <h1>Use Effect example</h1>
 {users.map((user)=>{
     return(
