@@ -1,5 +1,8 @@
 const express = require('express')
 const User = require('../Models/userSchema')
+const jwt = require('jsonwebtoken')
+
+const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret'
 
 const harsha = async (req, res) => {
     const user = new User(req.body);
@@ -41,13 +44,15 @@ const {email,password}=req.body;
 
 const findUser = await User.findOne({email,password})
 if(!findUser){
-    res.json("Invalid user")
+    return res.status(401).json("Invalid user")
 }
-res.json({userId:findUser._id})
+const token = jwt.sign({userId:findUser._id,email:findUser.email},JWT_SECRET,{expiresIn:'1h'})
+res.json({token,UserId:findUser})
+console.log(token);
 }
 
 const profile =  async (req, res) => {
-const user = await User.findById(req.params.id);
+const user = await User.findById(req.userId);
 if (!user) {
 return res.status(404).json({ message: "User not found" });
 }

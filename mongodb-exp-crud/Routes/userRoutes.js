@@ -11,6 +11,6 @@ router.put('/students/:id', t[4])
 
 router.post('/signup',t[5])
 router.post('/login',t[6])
-router.get('/profile/:id',auth,t[7])
+router.get('/profile',auth,t[7])
 
 module.exports = router
